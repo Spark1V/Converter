@@ -1,0 +1,82 @@
+html:
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Конвертор валют</title>
+</head>
+
+<body>
+	<input class="js-value-input" type="number">
+	<select class="js-currency-selector">
+		<option value="usd">USD</option>
+		<option value="eur">EUR</option>
+	</select>
+	<div class="js-output"></div>
+	<script src="/Project_all/конвертор валют/convertor.js"></script>
+	<script src="/Project_all/конвертор валют/index.js"></script>
+</body>
+
+</html>
++++++++++++++++++++
+
+css:
+
+.js-value-input{
+	background-color:rgba(110,170,130, 0.7);
+}
+
+.js-currency-selector{
+	background-color: rgba(180, 170, 130, 0.7);
+}
+
+
+++++++++++++++++++++
+convertor.js:
+
+const RATES = {
+	usd: 0.014,
+	eur: 0.013
+};
+function convert({ rub, currency }) {
+	if (!RATES[currency]) {
+		return null;
+	}
+	return rub * RATES[currency]
+}
+
+++++++++++++++++++++++
+index.js:
+
+const valueInputNode = document.querySelector('.js-value-input');
+const currencySelectorNode = document.querySelector('.js-currency-selector');
+const outputNode = document.querySelector('.js-output');
+
+
+function getInput() {
+	return {
+		rub: Number(valueInputNode.value),
+		currency: currencySelectorNode.value
+	}
+}
+function render(result) {
+	outputNode.innerText = result;
+}
+valueInputNode.addEventListener('input', function () {
+
+	const result = convert(getInput());
+
+	render(result)
+});
+currencySelectorNode.addEventListener('change', function () {
+
+	const result = convert(getInput());
+
+	render(result)
+});
+
+
